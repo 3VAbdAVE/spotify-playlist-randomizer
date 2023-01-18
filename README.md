@@ -41,4 +41,25 @@ Next, edit the included .ini file, and rename it to **spotify-randomizer.ini.**
 - - On the desktop or web client, right click each playlist you want randomized, click "Share" and then copy the link to the playlist. The playlist ID is the string after "/playlist/" and before the "?".
 - - https&#58;&#47;&#47;open&period;spotify.com/playlist/&lsaquo;PLAYLIST ID&rsaquo;?si=YYYYYYYYYYYYYYYYY
 
+This application also requires the spotipy python module:
+```pip install spotipy```
+
 Finally, run `python main.py`.
+
+You can override the playlists in the configuration with a single playlist id, and you can specify an alternate config file.
+```
+$ python ./main.py -h
+usage: main.py [-h] [-p PLAYLIST] [-c CONFIG]
+
+Randomize spotify playlists.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -p PLAYLIST, --playlist PLAYLIST
+                        Override config file with one playlist ID to be randomized
+  -c CONFIG, --config CONFIG
+                        File containing authorization and an optional list of playlists
+```
+
+## TODO
+I need to do more testing and make sure it'll refresh the auth token reliably over time, and then I can put this on a headless server.
