@@ -60,6 +60,3 @@ optional arguments:
   -c CONFIG, --config CONFIG
                         File containing authorization and an optional list of playlists
 ```
-
-## TODO
-I need to do more testing and make sure it'll refresh the auth token reliably over time, and then I can put this on a headless server.
