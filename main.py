@@ -2,7 +2,7 @@
 
 import configparser, argparse, logging, os, random, time
 import spotipy
-import spotipy.util as util
+#import spotipy.util as util
 from spotipy.oauth2 import SpotifyOAuth
 from itertools import islice
 
@@ -39,7 +39,6 @@ def sendmsg(msg, sev='info'):
     # Just some simple debuggery
     print(msg)
     getattr(logger, sev)(msg)
-    #logger.info(msg)
     
 class SpotifyPlaylistRandomizer(object):
     def __init__(self, config):
@@ -110,12 +109,12 @@ class SpotifyPlaylistRandomizer(object):
                     batch
                 )
             except spotipy.exceptions.SpotifyException as e:
-                sendmsg("At least one non-existent track in this batch, adding them one at a time.")
+                sendmsg("At least one non-existent track in this batch, adding them one at a time.", 'error')
                 if 'Payload contains a non-existing ID' in e.msg:
-                    sendmsg("This is probably due to Spotify invalidating tracks in your region.")
+                    sendmsg("This is probably due to Spotify invalidating tracks in your region.", 'error')
                     self.add_tracks_individually(playlist_id, batch)
                 elif 'Invalid track uri' in e.msg:
-                    sendmsg(e.msg)
+                    sendmsg(e.msg,'error')
                     self.add_tracks_individually(playlist_id, batch)
                     
             msg = f"Added tracks {str(count)} to {str(count + (len(batch) - 1))} to the playlist."
@@ -134,15 +133,15 @@ class SpotifyPlaylistRandomizer(object):
             except spotipy.exceptions.SpotifyException as e:
                 sendmsg(f"Found a bad track URI in the batch: spotify:track:{track}. Skipping it.")
 
-    def _get_token(self, client_id, client_secret, redirect_uri):
-        scope='user-library-read playlist-modify-private playlist-modify-public'
-        return util.prompt_for_user_token(
-            username=self.username,
-            scope=scope,
-            client_id=client_id,
-            client_secret=client_secret,
-            redirect_uri=redirect_uri
-        )
+    # def _get_token(self, client_id, client_secret, redirect_uri):
+    #     scope='user-library-read playlist-modify-private playlist-modify-public'
+    #     return util.prompt_for_user_token(
+    #         username=self.username,
+    #         scope=scope,
+    #         client_id=client_id,
+    #         client_secret=client_secret,
+    #         redirect_uri=redirect_uri
+    #     )
 
     def get_playlist_track_ids(self, playlist_id):
         track_ids = []
@@ -183,7 +182,6 @@ def main():
         filename='debug.log',
         level=logging.INFO
     )
-    
     args = parseArgs()
     config = parseConfig(args.config)
 
