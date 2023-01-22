@@ -182,7 +182,9 @@ class SpotifyPlaylistRandomizer(object):
 def main():
     logging.basicConfig(
         filename='debug.log',
-        level=logging.INFO
+        level=logging.INFO,
+        format='%(asctime)s %(levelname)s %(message)s',
+        datefmt='%Y-%m-%d %H:%M:%S'
     )
     args = parseArgs()
     config = parseConfig(args.config)
@@ -191,7 +193,6 @@ def main():
         randomizer = SpotifyPlaylistRandomizer(config)
         if args.playlist:
             playlists = args.playlist
-            # playlists.append(args.playlist)
         else:
             playlists = [ x[1] for x in config.items('playlists') ]
             
