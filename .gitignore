@@ -136,3 +136,5 @@ pyproject.toml
 spotify-randomizer.ini
 .cache*
 debug.log
+.spotify-token
+.*token*
