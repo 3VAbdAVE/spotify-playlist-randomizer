@@ -46,6 +46,7 @@ class SpotifyPlaylistRandomizer(object):
         self._client_id = config.get('auth', 'client_id')
         self._client_secret = config.get('auth', 'client_secret')
         self._cache_path = config.get('auth', 'tokenpath')
+        self._redirect_uri = config.get('auth', 'redirect_uri') # Use config value
         self.auth_manager, self.client = self._create_client()
         # self.client = spotipy.Spotify(auth=self._get_token(
         #     client_id=self._client_id, 
@@ -58,7 +59,7 @@ class SpotifyPlaylistRandomizer(object):
         auth_manager = SpotifyOAuth(
             scope=scope,
             username=self.username,
-            redirect_uri='http://localhost/callback/',
+            redirect_uri=self._redirect_uri,
             client_id=self._client_id,
             client_secret=self._client_secret,
             cache_path=self._cache_path
